@@ -1,7 +1,7 @@
 gravy
 =====
 
-A language for describing Riak CRDT modifications
+A language for describing Riak CRDT modifications. Once this works, I'll translate to leex/yecc.
 
 
 ```
