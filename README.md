@@ -35,7 +35,7 @@ map {
 
 	map foo {
 		map bar {
-			counter baz
+			counter baz++
 		}
 	}
 }
