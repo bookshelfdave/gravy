@@ -25,11 +25,11 @@ grammar Gravy;
 crdt_command: crdt_initializer | crdt_scope;
 
 crdt_scope: LCURLY
-                crdt_scope_command (COMMA crdt_scope_command)*
+                cmds+=crdt_scope_command (COMMA cmds+=crdt_scope_command)*
             RCURLY;
 
 crdt_scope_command: crdt_add_type |
-                    crdt_incdec_clunter;
+                    crdt_incdec_counter;
 
 crdt_add_type: ADD crdt_type ID;
 
@@ -58,6 +58,7 @@ RCURLY      : '}';
 LPAREN      : '(';
 RPAREN      : ')';
 COMMA       : ',';
+DOT         : '.';
 
 ID          :       [A-Za-z_0-9]+;
 
@@ -72,6 +73,6 @@ fragment DIGIT  : '0' .. '9';
 STRING  :  '"' (ESC|.)*? '"';
 fragment ESC : '\\"' | '\\\\' ;
 
-LINE_COMMENT  : '%' .*? '\r'? '\n' -> channel(COMMENTS) ;
+LINE_COMMENT  : '%' .*? '\r'? '\n' -> skip ;
 
-WS      :       [ \t\r\n]+ -> channel(WHITESPACE);
+WS      :       [ \t\r\n]+ -> skip;
