@@ -28,6 +28,7 @@ import com.metadave.etp.rep.*;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
@@ -43,8 +44,9 @@ public class GravyWalker extends GravyBaseListener {
 
     static Map<String, String> crdtTypeMap = new HashMap<String, String>();
     static {
-        crdtTypeMap.put("counter", "riak_dt_pncounter");
-        crdtTypeMap.put("set",     "riak_dt_vvorset");
+        crdtTypeMap.put("counter",      "riak_dt_pncounter");
+        crdtTypeMap.put("set",          "riak_dt_vvorset");
+        crdtTypeMap.put("register",     "riak_dt_lwwregister");
     }
 
     public GravyWalker(CommonTokenStream tokens) {
@@ -74,12 +76,11 @@ public class GravyWalker extends GravyBaseListener {
             op = new ETPAtom("decrement");
         }
         ETPAtom ctype = new ETPAtom(crdtTypeMap.get(ctx.TYPE_COUNTER().getText()));
-
-        //ETPInteger val = new ETPInteger(Integer.parseInt(ctx.value.getText());
+        ETPInteger val = new ETPInteger(Integer.parseInt(ctx.value.getText()));
         ETPAtom id = new ETPAtom(ctx.ID().getText());
 
-        //ETPTuple t = new ETPTuple(new ETPAtom("update"), new ETPTuple(id, ctype), new ETPTuple(op, val));
-        //System.out.println(t);
+        ETPTuple t = new ETPTuple(new ETPAtom("update"), new ETPTuple(id, ctype), new ETPTuple(op, val));
+        setValue(ctx, t);
     }
 
     @Override
@@ -89,37 +90,65 @@ public class GravyWalker extends GravyBaseListener {
 
     @Override
     public void exitCrdt_scope(GravyParser.Crdt_scopeContext ctx) {
-//        List<ETPTerm<?>> children = new ArrayList<ETPTerm<?>>();
-//        for(GravyParser.Crdt_scope_commandContext cmd : ctx.cmds) {
-//            children.add((ETPTerm<?>)getValue(cmd));
-//        }
-//        ETPTuple term = new ETPTuple(new ETPAtom("update"), new ETPList(children));
-//        System.out.println(term);
-//        setValue(ctx, term);
+        List<ETPTerm<?>> children = new ArrayList<ETPTerm<?>>();
+        for(GravyParser.Crdt_scope_commandContext cmd : ctx.cmds) {
+            children.add((ETPTerm<?>)getValue(cmd));
+        }
+        ETPTuple term = new ETPTuple(new ETPAtom("update"), new ETPList(children));
+        System.out.println(term);
+        setValue(ctx, term);
     }
 
-    @Override
-    public void exitCrdt_add_type(GravyParser.Crdt_add_typeContext ctx) {
-        ETPAtom op = new ETPAtom("add");
-        ETPAtom id = new ETPAtom(ctx.ID().getText());
-        ETPAtom ctype = new ETPAtom((String)getValue(ctx.crdt_type()));
-        ETPTuple t = new ETPTuple(id, ctype);
-        ETPTuple add = new ETPTuple(op, t);
-        // {add, {gold, riak_dt_pncounter}
-        setValue(ctx, add);
-    }
 
     @Override
     public void exitCrdt_scope_command(GravyParser.Crdt_scope_commandContext ctx) {
         if(ctx.crdt_add_type() != null) {
             ETPTerm<?> newval = (ETPTerm<?>)getValue(ctx.crdt_add_type());
             setValue(ctx, newval);
+        } else if(ctx.crdt_incdec_counter() != null) {
+            ETPTerm<?> incdec = (ETPTerm<?>)getValue(ctx.crdt_incdec_counter());
+            setValue(ctx, incdec);
+        } else if(ctx.crdt_type_with_scope() != null) {
+            ETPTerm<?> scope = (ETPTerm<?>)getValue(ctx.crdt_type_with_scope());
+            setValue(ctx, scope);
+        }
+    }
+
+    @Override
+    public void exitCrdt_add_type(GravyParser.Crdt_add_typeContext ctx) {
+        ETPAtom op = new ETPAtom("add");
+
+        if(ctx.crdt_type() != null) {
+            ETPAtom id = new ETPAtom(ctx.ID().getText());
+            ETPAtom ctype = new ETPAtom((String)getValue(ctx.crdt_type()));
+            ETPTuple t = new ETPTuple(id, ctype);
+            ETPTuple add = new ETPTuple(op, t);
+            setValue(ctx, add);
+        } else {
+            ETPTerm<?> t = null;
+            if(ctx.ID() != null) {
+                t = new ETPAtom(ctx.ID().getText());
+            } else if(ctx.STRING() != null) {
+                // TODO: strip quotes
+                t = new ETPString(ctx.STRING().getText());
+            } else if(ctx.INT() != null) {
+                t = new ETPInteger(Integer.parseInt(ctx.INT().getText()));
+            }
+            ETPTuple add = new ETPTuple(op, t);
+            setValue(ctx, add);
         }
     }
 
     @Override
     public void exitCrdt_initializer(GravyParser.Crdt_initializerContext ctx) {
-        super.exitCrdt_initializer(ctx);
+        ETPAtom t = new ETPAtom(crdtTypeMap.get(ctx.crdt_type().getText()));
+        ETPTerm name = new ETPAtom(ctx.scope_name.getText());
+        ETPTuple tup = new ETPTuple(t, name);
+        setValue(ctx, tup);
     }
 
+    @Override
+    public void exitCrdt_type_with_scope(@NotNull GravyParser.Crdt_type_with_scopeContext ctx) {
+        System.out.println(ctx);
+    }
 }

@@ -29,13 +29,16 @@ crdt_scope: LCURLY
             RCURLY;
 
 crdt_scope_command: crdt_add_type |
-                    crdt_incdec_counter;
+                    crdt_incdec_counter |
+                    crdt_type_with_scope;
 
-crdt_add_type: ADD crdt_type ID;
+crdt_add_type: ADD (crdt_type ID | (ID | STRING | INT));
+
+crdt_type_with_scope: crdt_initializer crdt_scope;
 
 crdt_incdec_counter: (INCREMENT | DECREMENT) TYPE_COUNTER ID BY value=INT;
 
-crdt_initializer: crdt_type LPAREN (ID | STRING )? RPAREN;
+crdt_initializer: crdt_type LPAREN scope_name=ID? RPAREN;
 
 crdt_type:    TYPE_SET
             | TYPE_COUNTER
@@ -60,19 +63,22 @@ RPAREN      : ')';
 COMMA       : ',';
 DOT         : '.';
 
-ID          :       [A-Za-z_0-9]+;
+
+// ID's MUST start with a letter
+ID          :       [A-Za-z][A-Za-z_0-9]*;
 
 
-INT         :   DIGIT+;
-FLOAT       :   DIGIT+ DOT DIGIT*
-            | DOT DIGIT+
+INT           :   [0-9]+;
+/*
+FLOAT         :   DIGIT+ DOT DIGIT*
+              | DOT DIGIT+
          ;
 fragment DIGIT  : '0' .. '9';
-
+*/
 
 STRING  :  '"' (ESC|.)*? '"';
 fragment ESC : '\\"' | '\\\\' ;
 
-LINE_COMMENT  : '%' .*? '\r'? '\n' -> skip ;
+//LINE_COMMENT  : '%' .*? '\r'? '\n' -> skip ;
 
 WS      :       [ \t\r\n]+ -> skip;

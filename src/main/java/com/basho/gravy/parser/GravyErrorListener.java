@@ -33,7 +33,7 @@ public class GravyErrorListener extends BaseErrorListener {
                             int charPositionInLine,
                             String msg,
                             RecognitionException e) {
-        //underlineError(recognizer, (Token)offendingSymbol, line, charPositionInLine);
+        underlineError(recognizer, (Token)offendingSymbol, line, charPositionInLine);
         throw new RuntimeException("Syntax error at line " + line + ", character " + charPositionInLine);
     }
 

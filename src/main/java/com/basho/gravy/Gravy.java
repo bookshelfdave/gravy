@@ -16,7 +16,7 @@ public class Gravy {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         GravyParser parser = new GravyParser(tokens);
         parser.removeErrorListeners();
-        //parser.addErrorListener(new GravyErrorListener());
+        parser.addErrorListener(new GravyErrorListener());
         GravyWalker ew = new GravyWalker(tokens);
         ParseTreeWalker walker = new ParseTreeWalker();
         GravyParser.Crdt_commandContext result = null;

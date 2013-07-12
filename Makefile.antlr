@@ -1,2 +1,2 @@
 antlr:
-	java -classpath /usr/local/lib/antlr-4.0-complete.jar org.antlr.v4.Tool -o ./ -listener -no-visitor -package com.basho.gravy.parser ./src/main/java/com/basho/gravy/parser/Gravy.g4
+	java -classpath /usr/local/lib/antlr-4.1-complete.jar org.antlr.v4.Tool -o ./ -listener -no-visitor -package com.basho.gravy.parser ./src/main/java/com/basho/gravy/parser/Gravy.g4
