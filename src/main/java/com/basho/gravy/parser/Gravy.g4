@@ -25,7 +25,7 @@ grammar Gravy;
 crdt_command: crdt_initializer | crdt_scope;
 
 crdt_scope: LCURLY
-                cmds+=crdt_scope_command (COMMA cmds+=crdt_scope_command)*
+                cmds+=crdt_scope_command? (COMMA cmds+=crdt_scope_command)*
             RCURLY;
 
 crdt_scope_command: crdt_add_type |
@@ -34,16 +34,16 @@ crdt_scope_command: crdt_add_type |
 
 crdt_add_type: ADD (crdt_type ID | (ID | STRING | INT));
 
-crdt_type_with_scope: crdt_initializer crdt_scope;
+crdt_type_with_scope: crdt_initializer (crdt_scope)?;
 
 crdt_incdec_counter: (INCREMENT | DECREMENT) TYPE_COUNTER ID BY value=INT;
 
-crdt_initializer: crdt_type LPAREN scope_name=ID? RPAREN;
+crdt_initializer: crdt_type LPAREN (scope_name=ID)? RPAREN;
 
 crdt_type:    TYPE_SET
-            | TYPE_COUNTER
-            | TYPE_LWW
-            | TYPE_MAP;
+              | TYPE_COUNTER
+              | TYPE_LWW
+              | TYPE_MAP;
 
 TYPE_SET        :      'set';
 TYPE_COUNTER    :      'counter';

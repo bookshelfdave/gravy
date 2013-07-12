@@ -30,14 +30,22 @@ public class GravyTest {
         //String txt = "{update, [{update, {weapons, riak_dt_vvorset}, {add, \"Halberd\"}},\n" +
         //             "          {update, {friends, riak_dt_vvorset}, {add, dave}}]}";
 
+//        String txt =   "{\n" +
+//                        "    set(weapons) {\n" +
+//                        "        add halberd\n" +
+//                        "    }\n" +
+//                        "    set(friends) {\n" +
+//                        "        add dave\n" +
+//                        "    }\n" +
+//                        "}";
+
+
         String txt =   "{\n" +
-                        "    set(weapons) {\n" +
-                        "        add halberd\n" +
-                        "    }\n" +
-                        "    set(friends) {\n" +
-                        "        add dave\n" +
-                        "    }\n" +
-                        "}";
+                "    set(weapons), " +
+                "    set(friends) {" +
+                "        add dave" +
+                "    }" +
+                "}";
         Gravy.parse(txt);
     }
 }

@@ -149,6 +149,6 @@ public class GravyWalker extends GravyBaseListener {
 
     @Override
     public void exitCrdt_type_with_scope(@NotNull GravyParser.Crdt_type_with_scopeContext ctx) {
-        System.out.println(ctx);
+        System.out.println(">>" + ctx);
     }
 }

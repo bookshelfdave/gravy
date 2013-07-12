@@ -113,11 +113,11 @@ public class GravyParser extends Parser {
 			return getRuleContext(Crdt_scope_commandContext.class,i);
 		}
 		public List<TerminalNode> COMMA() { return getTokens(GravyParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(GravyParser.COMMA, i);
-		}
 		public List<Crdt_scope_commandContext> crdt_scope_command() {
 			return getRuleContexts(Crdt_scope_commandContext.class);
+		}
+		public TerminalNode COMMA(int i) {
+			return getToken(GravyParser.COMMA, i);
 		}
 		public TerminalNode RCURLY() { return getToken(GravyParser.RCURLY, 0); }
 		public Crdt_scopeContext(ParserRuleContext parent, int invokingState) {
@@ -142,24 +142,31 @@ public class GravyParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(20); match(LCURLY);
-			setState(21); ((Crdt_scopeContext)_localctx).crdt_scope_command = crdt_scope_command();
-			((Crdt_scopeContext)_localctx).cmds.add(((Crdt_scopeContext)_localctx).crdt_scope_command);
-			setState(26);
+			setState(22);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_SET) | (1L << TYPE_COUNTER) | (1L << TYPE_LWW) | (1L << TYPE_MAP) | (1L << ADD) | (1L << INCREMENT) | (1L << DECREMENT))) != 0)) {
+				{
+				setState(21); ((Crdt_scopeContext)_localctx).crdt_scope_command = crdt_scope_command();
+				((Crdt_scopeContext)_localctx).cmds.add(((Crdt_scopeContext)_localctx).crdt_scope_command);
+				}
+			}
+
+			setState(28);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(22); match(COMMA);
-				setState(23); ((Crdt_scopeContext)_localctx).crdt_scope_command = crdt_scope_command();
+				setState(24); match(COMMA);
+				setState(25); ((Crdt_scopeContext)_localctx).crdt_scope_command = crdt_scope_command();
 				((Crdt_scopeContext)_localctx).cmds.add(((Crdt_scopeContext)_localctx).crdt_scope_command);
 				}
 				}
-				setState(28);
+				setState(30);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(29); match(RCURLY);
+			setState(31); match(RCURLY);
 			}
 		}
 		catch (RecognitionException re) {
@@ -201,19 +208,19 @@ public class GravyParser extends Parser {
 		Crdt_scope_commandContext _localctx = new Crdt_scope_commandContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_crdt_scope_command);
 		try {
-			setState(34);
+			setState(36);
 			switch (_input.LA(1)) {
 			case ADD:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(31); crdt_add_type();
+				setState(33); crdt_add_type();
 				}
 				break;
 			case INCREMENT:
 			case DECREMENT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(32); crdt_incdec_counter();
+				setState(34); crdt_incdec_counter();
 				}
 				break;
 			case TYPE_SET:
@@ -222,7 +229,7 @@ public class GravyParser extends Parser {
 			case TYPE_MAP:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(33); crdt_type_with_scope();
+				setState(35); crdt_type_with_scope();
 				}
 				break;
 			default:
@@ -269,23 +276,23 @@ public class GravyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(36); match(ADD);
-			setState(41);
+			setState(38); match(ADD);
+			setState(43);
 			switch (_input.LA(1)) {
 			case TYPE_SET:
 			case TYPE_COUNTER:
 			case TYPE_LWW:
 			case TYPE_MAP:
 				{
-				setState(37); crdt_type();
-				setState(38); match(ID);
+				setState(39); crdt_type();
+				setState(40); match(ID);
 				}
 				break;
 			case ID:
 			case INT:
 			case STRING:
 				{
-				setState(40);
+				setState(42);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID) | (1L << INT) | (1L << STRING))) != 0)) ) {
 				_errHandler.recoverInline(this);
@@ -333,11 +340,19 @@ public class GravyParser extends Parser {
 	public final Crdt_type_with_scopeContext crdt_type_with_scope() throws RecognitionException {
 		Crdt_type_with_scopeContext _localctx = new Crdt_type_with_scopeContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_crdt_type_with_scope);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(43); crdt_initializer();
-			setState(44); crdt_scope();
+			setState(45); crdt_initializer();
+			setState(47);
+			_la = _input.LA(1);
+			if (_la==LCURLY) {
+				{
+				setState(46); crdt_scope();
+				}
+			}
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -380,16 +395,16 @@ public class GravyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(49);
 			_la = _input.LA(1);
 			if ( !(_la==INCREMENT || _la==DECREMENT) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
-			setState(47); match(TYPE_COUNTER);
-			setState(48); match(ID);
-			setState(49); match(BY);
-			setState(50); ((Crdt_incdec_counterContext)_localctx).value = match(INT);
+			setState(50); match(TYPE_COUNTER);
+			setState(51); match(ID);
+			setState(52); match(BY);
+			setState(53); ((Crdt_incdec_counterContext)_localctx).value = match(INT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -432,17 +447,17 @@ public class GravyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52); crdt_type();
-			setState(53); match(LPAREN);
-			setState(55);
+			setState(55); crdt_type();
+			setState(56); match(LPAREN);
+			setState(58);
 			_la = _input.LA(1);
 			if (_la==ID) {
 				{
-				setState(54); ((Crdt_initializerContext)_localctx).scope_name = match(ID);
+				setState(57); ((Crdt_initializerContext)_localctx).scope_name = match(ID);
 				}
 			}
 
-			setState(57); match(RPAREN);
+			setState(60); match(RPAREN);
 			}
 		}
 		catch (RecognitionException re) {
@@ -482,7 +497,7 @@ public class GravyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(59);
+			setState(62);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_SET) | (1L << TYPE_COUNTER) | (1L << TYPE_LWW) | (1L << TYPE_MAP))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -502,22 +517,24 @@ public class GravyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\25@\4\2\t\2\4\3\t"+
+		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\25C\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\5\2\25\n\2"+
-		"\3\3\3\3\3\3\3\3\7\3\33\n\3\f\3\16\3\36\13\3\3\3\3\3\3\4\3\4\3\4\5\4%"+
-		"\n\4\3\5\3\5\3\5\3\5\3\5\5\5,\n\5\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\b\3\b\3\b\5\b:\n\b\3\b\3\b\3\t\3\t\3\t\2\n\2\4\6\b\n\f\16\20\2\5\3"+
-		"\2\22\24\3\2\n\13\3\2\3\6=\2\24\3\2\2\2\4\26\3\2\2\2\6$\3\2\2\2\b&\3\2"+
-		"\2\2\n-\3\2\2\2\f\60\3\2\2\2\16\66\3\2\2\2\20=\3\2\2\2\22\25\5\16\b\2"+
-		"\23\25\5\4\3\2\24\22\3\2\2\2\24\23\3\2\2\2\25\3\3\2\2\2\26\27\7\f\2\2"+
-		"\27\34\5\6\4\2\30\31\7\20\2\2\31\33\5\6\4\2\32\30\3\2\2\2\33\36\3\2\2"+
-		"\2\34\32\3\2\2\2\34\35\3\2\2\2\35\37\3\2\2\2\36\34\3\2\2\2\37 \7\r\2\2"+
-		" \5\3\2\2\2!%\5\b\5\2\"%\5\f\7\2#%\5\n\6\2$!\3\2\2\2$\"\3\2\2\2$#\3\2"+
-		"\2\2%\7\3\2\2\2&+\7\b\2\2\'(\5\20\t\2()\7\22\2\2),\3\2\2\2*,\t\2\2\2+"+
-		"\'\3\2\2\2+*\3\2\2\2,\t\3\2\2\2-.\5\16\b\2./\5\4\3\2/\13\3\2\2\2\60\61"+
-		"\t\3\2\2\61\62\7\4\2\2\62\63\7\22\2\2\63\64\7\7\2\2\64\65\7\23\2\2\65"+
-		"\r\3\2\2\2\66\67\5\20\t\2\679\7\16\2\28:\7\22\2\298\3\2\2\29:\3\2\2\2"+
-		":;\3\2\2\2;<\7\17\2\2<\17\3\2\2\2=>\t\4\2\2>\21\3\2\2\2\7\24\34$+9";
+		"\3\3\3\3\5\3\31\n\3\3\3\3\3\7\3\35\n\3\f\3\16\3 \13\3\3\3\3\3\3\4\3\4"+
+		"\3\4\5\4\'\n\4\3\5\3\5\3\5\3\5\3\5\5\5.\n\5\3\6\3\6\5\6\62\n\6\3\7\3\7"+
+		"\3\7\3\7\3\7\3\7\3\b\3\b\3\b\5\b=\n\b\3\b\3\b\3\t\3\t\3\t\2\n\2\4\6\b"+
+		"\n\f\16\20\2\5\3\2\22\24\3\2\n\13\3\2\3\6B\2\24\3\2\2\2\4\26\3\2\2\2\6"+
+		"&\3\2\2\2\b(\3\2\2\2\n/\3\2\2\2\f\63\3\2\2\2\169\3\2\2\2\20@\3\2\2\2\22"+
+		"\25\5\16\b\2\23\25\5\4\3\2\24\22\3\2\2\2\24\23\3\2\2\2\25\3\3\2\2\2\26"+
+		"\30\7\f\2\2\27\31\5\6\4\2\30\27\3\2\2\2\30\31\3\2\2\2\31\36\3\2\2\2\32"+
+		"\33\7\20\2\2\33\35\5\6\4\2\34\32\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36"+
+		"\37\3\2\2\2\37!\3\2\2\2 \36\3\2\2\2!\"\7\r\2\2\"\5\3\2\2\2#\'\5\b\5\2"+
+		"$\'\5\f\7\2%\'\5\n\6\2&#\3\2\2\2&$\3\2\2\2&%\3\2\2\2\'\7\3\2\2\2(-\7\b"+
+		"\2\2)*\5\20\t\2*+\7\22\2\2+.\3\2\2\2,.\t\2\2\2-)\3\2\2\2-,\3\2\2\2.\t"+
+		"\3\2\2\2/\61\5\16\b\2\60\62\5\4\3\2\61\60\3\2\2\2\61\62\3\2\2\2\62\13"+
+		"\3\2\2\2\63\64\t\3\2\2\64\65\7\4\2\2\65\66\7\22\2\2\66\67\7\7\2\2\678"+
+		"\7\23\2\28\r\3\2\2\29:\5\20\t\2:<\7\16\2\2;=\7\22\2\2<;\3\2\2\2<=\3\2"+
+		"\2\2=>\3\2\2\2>?\7\17\2\2?\17\3\2\2\2@A\t\4\2\2A\21\3\2\2\2\t\24\30\36"+
+		"&-\61<";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {
