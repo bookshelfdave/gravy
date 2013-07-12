@@ -23,3 +23,20 @@ update map {
 	}
 }
 ```
+
+```
+map {
+	counter gold++
+	counter stone++
+
+	set weapons {
+		counter x++
+	}
+
+	map foo {
+		map bar {
+			counter baz
+		}
+	}
+}
+```
