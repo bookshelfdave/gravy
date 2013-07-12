@@ -40,3 +40,22 @@ map {
 	}
 }
 ```
+
+```
+map (
+	counter gold++
+	counter stone++
+
+	set weapons (
+		counter x++,
+		"Halberd",
+		knowledge
+	)
+
+	map foo (
+		map bar (
+			counter baz
+		)
+	)
+)
+```
