@@ -33,7 +33,7 @@ crdt_scope_command: crdt_add_type |
 
 crdt_add_type: ADD crdt_type ID;
 
-crdt_incdec_counter: (INCREMENT | DECREMENT) TYPE_COUNTER ID BY INT;
+crdt_incdec_counter: (INCREMENT | DECREMENT) TYPE_COUNTER ID BY value=INT;
 
 crdt_initializer: crdt_type LPAREN (ID | STRING )? RPAREN;
 

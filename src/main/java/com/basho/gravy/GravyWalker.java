@@ -24,10 +24,7 @@ package com.basho.gravy;
 
 import com.basho.gravy.parser.GravyBaseListener;
 import com.basho.gravy.parser.GravyParser;
-import com.metadave.etp.rep.ETPAtom;
-import com.metadave.etp.rep.ETPList;
-import com.metadave.etp.rep.ETPTerm;
-import com.metadave.etp.rep.ETPTuple;
+import com.metadave.etp.rep.*;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -70,7 +67,19 @@ public class GravyWalker extends GravyBaseListener {
     @Override
     public void exitCrdt_incdec_counter(GravyParser.Crdt_incdec_counterContext ctx) {
         //crdt_incdec_counter: (INCREMENT | DECREMENT) TYPE_COUNTER ID BY INT;
+        ETPAtom op = null;
+        if(ctx.INCREMENT() != null) {
+            op = new ETPAtom("increment");
+        } else {
+            op = new ETPAtom("decrement");
+        }
+        ETPAtom ctype = new ETPAtom(crdtTypeMap.get(ctx.TYPE_COUNTER().getText()));
 
+        //ETPInteger val = new ETPInteger(Integer.parseInt(ctx.value.getText());
+        ETPAtom id = new ETPAtom(ctx.ID().getText());
+
+        //ETPTuple t = new ETPTuple(new ETPAtom("update"), new ETPTuple(id, ctype), new ETPTuple(op, val));
+        //System.out.println(t);
     }
 
     @Override
@@ -80,15 +89,13 @@ public class GravyWalker extends GravyBaseListener {
 
     @Override
     public void exitCrdt_scope(GravyParser.Crdt_scopeContext ctx) {
-        List<ETPTerm<?>> children = new ArrayList<ETPTerm<?>>();
-        for(GravyParser.Crdt_scope_commandContext cmd : ctx.cmds) {
-            children.add((ETPTerm<?>)getValue(cmd));
-        }
-        //{update, [{
-
-        ETPTuple term = new ETPTuple(new ETPAtom("update"), new ETPList(children));
-        System.out.println(term);
-        setValue(ctx, term);
+//        List<ETPTerm<?>> children = new ArrayList<ETPTerm<?>>();
+//        for(GravyParser.Crdt_scope_commandContext cmd : ctx.cmds) {
+//            children.add((ETPTerm<?>)getValue(cmd));
+//        }
+//        ETPTuple term = new ETPTuple(new ETPAtom("update"), new ETPList(children));
+//        System.out.println(term);
+//        setValue(ctx, term);
     }
 
     @Override

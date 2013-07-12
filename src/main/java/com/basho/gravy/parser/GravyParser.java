@@ -272,6 +272,7 @@ public class GravyParser extends Parser {
 	}
 
 	public static class Crdt_incdec_counterContext extends ParserRuleContext {
+		public Token value;
 		public TerminalNode INCREMENT() { return getToken(GravyParser.INCREMENT, 0); }
 		public TerminalNode BY() { return getToken(GravyParser.BY, 0); }
 		public TerminalNode INT() { return getToken(GravyParser.INT, 0); }
@@ -308,7 +309,7 @@ public class GravyParser extends Parser {
 			setState(38); match(TYPE_COUNTER);
 			setState(39); match(ID);
 			setState(40); match(BY);
-			setState(41); match(INT);
+			setState(41); ((Crdt_incdec_counterContext)_localctx).value = match(INT);
 			}
 		}
 		catch (RecognitionException re) {
