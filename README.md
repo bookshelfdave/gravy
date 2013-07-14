@@ -4,7 +4,7 @@ gravy
 A language for describing Riak CRDT modifications. Once this works, I'll translate to leex/yecc.
 
 
-
+### Update
 ```
 map {
 	counter gold++
@@ -25,6 +25,7 @@ map {
 }
 ```
 
+### Query
 ```
 .gold                // get the current value of gold
 .weapons             // returns the whole set
