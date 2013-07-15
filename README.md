@@ -33,6 +33,10 @@ map {
 .foo.bar.*           // returns baz and z
 .gold, .foo.bar.baz  // return multiple values from one query (comma sep)
 .foo.bar.baz         // returns value of baz
+.foo.$keys           // use a $ prefix so users can store a "keys" or "values" key
+.foo.$values
+.foo.$count          // keys + values bolth have the same count, no?
+.foo.$type           // return the CRDT type
 .foo.bar?            // does foo contain the key bar?
 .* return everything
 ```
