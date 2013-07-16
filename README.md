@@ -7,15 +7,15 @@ A language for describing Riak CRDT modifications. Once this works, I'll transla
 ### Update
 ```
 map {
-	counter gold++
-	counter stone--
+	counter gold++,
+	counter stone--,
 
 	set weapons {
 		mace,
 		sword,
 		knowledge,
 		"warm beer"
-	}
+	},
 
 	map foo {
 		map bar {
