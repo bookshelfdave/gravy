@@ -11,10 +11,10 @@ map {
 	counter stone--,
 
 	set weapons {
-		mace,
-		sword,
-		knowledge,
-		"warm beer"
+		+mace,
+		+sword,
+		+knowledge,
+		-"warm beer" // remove an item
 	},
 
 	map foo {
